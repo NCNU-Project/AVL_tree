@@ -1,4 +1,4 @@
-from tkinter import * # Import tkinter
+﻿from tkinter import * # Import tkinter
 import AVL
 import math
 
@@ -8,7 +8,7 @@ class Main:
         window.title("Recursive Tree") # Set a title
 
         self.width = 800
-        self.height = 800
+        self.height = 600
     
         self.canvas = Canvas(window, 
         width = self.width, height = self.height,bg="white")
@@ -29,7 +29,7 @@ class Main:
             command = self.debugForAVL).pack(side = LEFT)
 
         self.angleFactor = math.pi/5
-        self.sizeFactor = 1
+        self.sizeFactor = 0.8
 
         window.mainloop() # Create an event loop
 
@@ -49,7 +49,6 @@ class Main:
         root = myTree.insert(root, 40)
         root = myTree.insert(root, 50) 
         root = myTree.insert(root, 25) 
-        print("QQ", myTree.preOrder(root, 0), root)
 
         self.canvas.delete("line")
         print(root, self.width/2, self.height, 30)
@@ -58,10 +57,7 @@ class Main:
     def paintBranch(self, x1, y1, root, length, angle = math.pi / 2, deeph = 0):            # 極座標~~
         if root:
             x2 = x1 + int(math.cos(angle) * length)
-            y2 = y1 - int(math.sin(angle) * length)
-
-            print(root)
-            # Draw the line
+            y2 = y1 + int(math.sin(angle) * length)
 
             if deeph != 0:
                 self.drawLine(x1,y1, x2,y2)
@@ -69,10 +65,10 @@ class Main:
             
             if not root.left:
                 angle1 = angle + self.angleFactor
-                self.drawCircle(x1 + int(math.cos(angle) * length), y1 - int(math.sin(angle) * length), length / 3)
+                self.drawCircle(x1 + int(math.cos(angle) * length), y1 + int(math.sin(angle) * length), length / 3)
             if not root.right:
                 angle1 = angle - self.angleFactor
-                self.drawCircle(x1 + int(math.cos(angle) * length), y1 - int(math.sin(angle) * length), length / 3)
+                self.drawCircle(x1 + int(math.cos(angle) * length), y1 + int(math.sin(angle) * length), length / 3)
                 
             
             self.paintBranch(x2, y2, root.left, length * self.sizeFactor, angle + self.angleFactor, deeph)
@@ -83,7 +79,7 @@ class Main:
     def paintCircle(self, x1, y1, root, length, angle = math.pi / 2, deeph = 0):            # 極座標~~
         if root:
             x2 = x1 + int(math.cos(angle) * length)
-            y2 = y1 - int(math.sin(angle) * length)
+            y2 = y1 + int(math.sin(angle) * length)
 
             self.drawCircle(x2 ,y2, length / 3)
             self.canvas.create_text(x2, y2, text = root.val, tags = "line")
@@ -95,10 +91,11 @@ class Main:
             return
 
     def display(self, root, length):
-        x1, y1 = self.width/2, self.height
+        x1, y1 = self.width/2, 0
         self.canvas.delete("line")
-        self.paintBranch(x1, y1, root, length)
-        self.paintCircle(x1, y1, root, length)
+        if root:
+            self.paintBranch(x1, y1, root, length)
+            self.paintCircle(x1, y1, root, length)
         return 
 
     def submit(self):
@@ -112,5 +109,5 @@ class Main:
             root = myTree.insert(root, i)
 
         self.canvas.delete("line")
-        self.display(root, 30)
+        self.display(root, 100)
 Main()

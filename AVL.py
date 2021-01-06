@@ -15,7 +15,7 @@ class AVL_Tree(object):
     # Recursive function to insert key in  
     # subtree rooted with node and returns 
     # new root of subtree. 
-    def insert(self, root, key): 
+    def insert(self, root, key):
       
         # Step 1 - Perform normal BST 
         if not root:                                #if node os empty(init status)
